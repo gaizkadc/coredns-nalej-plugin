@@ -1,5 +1,5 @@
 // Package kubernetes provides the kubernetes backend.
-package kubernetes
+package corednsnalejplugin
 
 import (
 	"errors"

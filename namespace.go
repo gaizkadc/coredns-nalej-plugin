@@ -1,4 +1,4 @@
-package kubernetes
+package corednsnalejplugin
 
 // namespace checks if namespace n exists in this cluster. This returns true
 // even for non exposed namespaces, see namespaceExposed.

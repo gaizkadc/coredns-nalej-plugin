@@ -1,4 +1,4 @@
-package kubernetes
+package corednsnalejplugin
 
 import (
 	"errors"
@@ -33,7 +33,7 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 )
 
-var log = clog.NewWithPlugin("kubernetes")
+var log = clog.NewWithPlugin("coredns-nalej-plugin")
 
 func init() {
 	// Kubernetes plugin uses the kubernetes library, which now uses klog, we must set and parse this flag
@@ -46,7 +46,7 @@ func init() {
 	logtostderr := klogFlags.Lookup("logtostderr")
 	logtostderr.Value.Set("true")
 
-	caddy.RegisterPlugin("kubernetes", caddy.Plugin{
+	caddy.RegisterPlugin("coredns-nalej-plugin", caddy.Plugin{
 		ServerType: "dns",
 		Action:     setup,
 	})
@@ -58,12 +58,12 @@ func setup(c *caddy.Controller) error {
 
 	k, err := kubernetesParse(c)
 	if err != nil {
-		return plugin.Error("kubernetes", err)
+		return plugin.Error("coredns-nalej-plugin", err)
 	}
 
 	err = k.InitKubeCache()
 	if err != nil {
-		return plugin.Error("kubernetes", err)
+		return plugin.Error("coredns-nalej-plugin", err)
 	}
 
 	k.RegisterKubeCache(c)

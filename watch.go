@@ -1,4 +1,4 @@
-package kubernetes
+package corednsnalejplugin
 
 import (
 	meta "k8s.io/apimachinery/pkg/apis/meta/v1"

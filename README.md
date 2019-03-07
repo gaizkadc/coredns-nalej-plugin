@@ -1,8 +1,8 @@
-# kubernetes
+# coredns-nalej-plugin
 
 ## Name
 
-*kubernetes* - enables the reading zone data from a Kubernetes cluster.
+*coredns-nalej-plugin* - enables the reading zone data from a Kubernetes cluster.
 
 ## Description
 
