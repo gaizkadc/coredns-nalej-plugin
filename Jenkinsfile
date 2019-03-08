@@ -1,7 +1,7 @@
 def slack = new org.daisho.Slack()
 
-def packageName = "golang-template"
-def appsList = "example-app other-app"
+def packageName = "coredns-nalej-plugin"
+def appsList = "coredns-nalej-plugin"
 def packagePath = "src/github.com/nalej/${packageName}"
 
 pipeline {
@@ -23,6 +23,13 @@ pipeline {
         }
         stage("Unit tests") {
             steps { container("golang") { stepGolangUnitTests packagePath } }
+        }
+        stage("Binary compilation") {
+            steps { container("golang") { stepGolangBinaryCompilation packagePath, appsList } }
+        }
+        stage("Publish image to Docker") {
+            when { branch 'master' }
+            steps { container("docker") { stepPublishToDocker packagePath, appsList, "nalej" } }
         }
     }
 
