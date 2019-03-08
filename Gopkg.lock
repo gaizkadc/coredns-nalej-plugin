@@ -50,19 +50,10 @@
   revision = "3f9db97f856818214da2e1057f8ad84803971cff"
 
 [[projects]]
-  digest = "1:abeb38ade3f32a92943e5be54f55ed6d6e3b6602761d74b4aab4c9dd45c18abd"
-  name = "github.com/fsnotify/fsnotify"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9"
-  version = "v1.4.7"
-
-[[projects]]
-  digest = "1:64c2b533ffd17023738c534548ab2455d7f519bc15ed4225145425ed2222448b"
+  digest = "1:239c4c7fd2159585454003d9be7207167970194216193a8a210b8d29576f19c9"
   name = "github.com/golang/protobuf"
   packages = [
     "proto",
-    "protoc-gen-go/descriptor",
     "ptypes",
     "ptypes/any",
     "ptypes/duration",
@@ -87,41 +78,6 @@
   packages = ["go/otgrpc"]
   pruneopts = "UT"
   revision = "8e809c8a86450a29b90dcc9efbf062d0fe6d9746"
-
-[[projects]]
-  digest = "1:c0d19ab64b32ce9fe5cf4ddceba78d5bc9807f0016db6b1183599da3dcc24d10"
-  name = "github.com/hashicorp/hcl"
-  packages = [
-    ".",
-    "hcl/ast",
-    "hcl/parser",
-    "hcl/printer",
-    "hcl/scanner",
-    "hcl/strconv",
-    "hcl/token",
-    "json/parser",
-    "json/scanner",
-    "json/token",
-  ]
-  pruneopts = "UT"
-  revision = "8cb6e5b959231cc1119e43259c4a608f9c51a241"
-  version = "v1.0.0"
-
-[[projects]]
-  digest = "1:870d441fe217b8e689d7949fef6e43efbc787e50f200cb1e70dbca9204a1d6be"
-  name = "github.com/inconshreveable/mousetrap"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75"
-  version = "v1.0"
-
-[[projects]]
-  digest = "1:c568d7727aa262c32bdf8a3f7db83614f7af0ed661474b24588de635c20024c7"
-  name = "github.com/magiconair/properties"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "c2353362d570a7bfa228149c62842019201cfb71"
-  version = "v1.8.0"
 
 [[projects]]
   digest = "1:ff5ebae34cfbf047d505ee150de27e60570e8c394b3b8fdbb720ff6ac71985fc"
@@ -152,128 +108,12 @@
   version = "v1.1.4"
 
 [[projects]]
-  digest = "1:53bc4cd4914cd7cd52139990d5170d6dc99067ae31c56530621b18b35fc30318"
-  name = "github.com/mitchellh/mapstructure"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "3536a929edddb9a5b34bd6861dc4a9647cb459fe"
-  version = "v1.1.2"
-
-[[projects]]
-  digest = "1:33fcf4534cc1d3af7d7c13fb16ca3605faf6d2a21e81a5685c454a277701a50e"
-  name = "github.com/nalej/conductor"
-  packages = [
-    "internal/entities",
-    "pkg/conductor/handler",
-    "pkg/conductor/monitor",
-    "pkg/conductor/plandesigner",
-    "pkg/conductor/requirementscollector",
-    "pkg/conductor/scorer",
-    "pkg/conductor/service",
-    "pkg/utils",
-  ]
-  pruneopts = "UT"
-  revision = "41a8558f67bc9c11f7607078da49f9c0d4416297"
-  version = "v0.1.1"
-
-[[projects]]
-  digest = "1:b4e5da75c2b97eca42007c3be5edf9b0a6d1bc60c791dd57317fd37f293cf26d"
-  name = "github.com/nalej/derrors"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "7a6df7f0bb1c7cddfec82c91119f193f6fcbc9d5"
-  version = "v2.0.0"
-
-[[projects]]
   branch = "master"
   digest = "1:a6b987fe6cbd3f006d65f41287bb918bd1829060857486f49bcd18ef620e7782"
   name = "github.com/nalej/golang-template"
   packages = ["version"]
   pruneopts = "UT"
   revision = "963fce8db8e46778ce622932e01b7a643d10ed01"
-
-[[projects]]
-  digest = "1:7e6504807eeeaf15884535eb845e56ab1e5a37133f8a2dbfe9641d3429ff3b6f"
-  name = "github.com/nalej/grpc-app-cluster-api-go"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "2cbd26303129b258a903566caa9402b1fb1ed536"
-  version = "v0.0.13"
-
-[[projects]]
-  digest = "1:0113a5b58b2155fcbcfd09d1a9b1867cac9f436e517e716647fffdb3f5dac062"
-  name = "github.com/nalej/grpc-application-go"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "2565a1af00e358f3878a0ebebdf5c38cc034a94c"
-  version = "v0.0.56"
-
-[[projects]]
-  digest = "1:41496e67504a2c5de20d1b003df34424ea413ad31993ad099a55b9cc8a9c8896"
-  name = "github.com/nalej/grpc-common-go"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "e1513decc4192934536180d456748a4c3dec0245"
-  version = "v0.0.30"
-
-[[projects]]
-  digest = "1:14e0247d3b5ecf44d7d6acdc31c45e81b1697fd54249ec6a743943146aa7a6d8"
-  name = "github.com/nalej/grpc-conductor-go"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "8b67c6639581af49477ef01a8a8959a305c72d68"
-  version = "v0.0.86"
-
-[[projects]]
-  digest = "1:96e583aa7740f09818aa115c650a61bbe034e14d92a4110d7d845fb763e8461f"
-  name = "github.com/nalej/grpc-deployment-manager-go"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "50e92c023d6ce62c2b0f36affdc2d7c3f8257501"
-  version = "v0.0.49"
-
-[[projects]]
-  digest = "1:1065ed384ab7118aa2266c7e0788b43223878a2a113bdefa3f934f9921dc6d56"
-  name = "github.com/nalej/grpc-infrastructure-go"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "ea9783c67dc5bf7f6429935c0fdc59eee3f361e1"
-  version = "v0.0.32"
-
-[[projects]]
-  digest = "1:0782f29cd89fdbb298cd040934995e4db441dc590eac60037e0c5ff096a1caf2"
-  name = "github.com/nalej/grpc-network-go"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "b206784fef662f5daafa38306b9cbe6d9a0d4db3"
-  version = "v0.0.30"
-
-[[projects]]
-  digest = "1:5c0f5a204bb887b0d91ec6512ad4ece5ecc422675cbc834f89abdb22c8e0282c"
-  name = "github.com/nalej/grpc-organization-go"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "c571882666c05213df408ae9da8ab08f71a7a7bb"
-  version = "v0.0.28"
-
-[[projects]]
-  digest = "1:8f560ff92fdcbb5ea39925eddaade16b5f7e0483451e48da2aca094f2d903cf5"
-  name = "github.com/nalej/grpc-unified-logging-go"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "60f3e95c13426997010080b7170dfcde1fd6a0b2"
-  version = "v0.0.2"
-
-[[projects]]
-  digest = "1:92d113b907362cedf8f4d39c8a272f6a7ceddc6ebb6e15a3e3c3a399e3812b33"
-  name = "github.com/nalej/grpc-utils"
-  packages = [
-    "pkg/conversions",
-    "pkg/tools",
-  ]
-  pruneopts = "UT"
-  revision = "3763d699ec598000c8095dc4d2e86a3ec0a169ff"
-  version = "v1.3.1"
 
 [[projects]]
   digest = "1:450b7623b185031f3a456801155c8320209f75d0d4c4e633c6b1e59d44d6e392"
@@ -286,22 +126,6 @@
   pruneopts = "UT"
   revision = "1949ddbfd147afd4d964a9f00b24eb291e0e7c38"
   version = "v1.0.2"
-
-[[projects]]
-  digest = "1:95741de3af260a92cc5c7f3f3061e85273f5a81b5db20d4bd68da74bd521675e"
-  name = "github.com/pelletier/go-toml"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "c01d1270ff3e442a8a57cddc1c92dc1138598194"
-  version = "v1.2.0"
-
-[[projects]]
-  branch = "master"
-  digest = "1:66a729007b3d140b10e26f0a0d3d73a6cd2c7b832f0be2992c0d36da69c5df9c"
-  name = "github.com/phf/go-queue"
-  packages = ["queue"]
-  pruneopts = "UT"
-  revision = "9abe38d0371deb4049011737cbd30e4ba80c673b"
 
 [[projects]]
   digest = "1:75d51eeab0df85a3cea9e1297ccd3183b20a10cb4b48c753d8ec8d113cc14250"
@@ -347,78 +171,6 @@
   ]
   pruneopts = "UT"
   revision = "d0f344d83b0c80a1bc03b547a2374a9ec6711144"
-
-[[projects]]
-  digest = "1:418b49380dbaa8b8fb72740658acb74f176a056b9d041d4b761edbf770555c3d"
-  name = "github.com/rs/zerolog"
-  packages = [
-    ".",
-    "internal/cbor",
-    "internal/json",
-    "log",
-  ]
-  pruneopts = "UT"
-  revision = "6d6350a51143b5c0d0a6a3b736ee2b41315f7269"
-  version = "v1.12.0"
-
-[[projects]]
-  digest = "1:3e39bafd6c2f4bf3c76c3bfd16a2e09e016510ad5db90dc02b88e2f565d6d595"
-  name = "github.com/spf13/afero"
-  packages = [
-    ".",
-    "mem",
-  ]
-  pruneopts = "UT"
-  revision = "f4711e4db9e9a1d3887343acb72b2bbfc2f686f5"
-  version = "v1.2.1"
-
-[[projects]]
-  digest = "1:08d65904057412fc0270fc4812a1c90c594186819243160dc779a402d4b6d0bc"
-  name = "github.com/spf13/cast"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "8c9545af88b134710ab1cd196795e7f2388358d7"
-  version = "v1.3.0"
-
-[[projects]]
-  digest = "1:645cabccbb4fa8aab25a956cbcbdf6a6845ca736b2c64e197ca7cbb9d210b939"
-  name = "github.com/spf13/cobra"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "ef82de70bb3f60c65fb8eebacbb2d122ef517385"
-  version = "v0.0.3"
-
-[[projects]]
-  digest = "1:1b753ec16506f5864d26a28b43703c58831255059644351bbcb019b843950900"
-  name = "github.com/spf13/jwalterweatherman"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "94f6ae3ed3bceceafa716478c5fbf8d29ca601a1"
-  version = "v1.1.0"
-
-[[projects]]
-  digest = "1:c1b1102241e7f645bc8e0c22ae352e8f0dc6484b6cb4d132fa9f24174e0119e2"
-  name = "github.com/spf13/pflag"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "298182f68c66c05229eb03ac171abe6e309ee79a"
-  version = "v1.0.3"
-
-[[projects]]
-  digest = "1:de37e343c64582d7026bf8ab6ac5b22a72eac54f3a57020db31524affed9f423"
-  name = "github.com/spf13/viper"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "6d33b5a963d922d182c91e8a1c88d81fd150cfd4"
-  version = "v1.3.1"
-
-[[projects]]
-  digest = "1:5e921352d70c72d1c4630995378bf74211700f0c502ea9ef933022c499d7ba9d"
-  name = "github.com/yourbasic/graph"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "40eb135c0b2618a87b653037e2697f58436d4666"
-  version = "1.0.5"
 
 [[projects]]
   branch = "master"
@@ -485,17 +237,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:4ac715d0cd21b7c9c5cc7bfd49c58ae261dfe9246e9e3881c01bbd8939f3400e"
+  digest = "1:c3076e7defee87de1236f1814beb588f40a75544c60121e6eb38b3b3721783e2"
   name = "google.golang.org/genproto"
-  packages = [
-    "googleapis/rpc/errdetails",
-    "googleapis/rpc/status",
-  ]
+  packages = ["googleapis/rpc/status"]
   pruneopts = "UT"
   revision = "5fe7a883aa19554f42890211544aa549836af7b7"
 
 [[projects]]
-  digest = "1:69d1b9652e6abdc1081ec7528bdd806fbfeb8bdc7a5686b59119e01a46ea5d78"
+  digest = "1:cbc746de4662c66fd24a037501bd65aa0f8ad0bfca0c92576e0abb88864e3741"
   name = "google.golang.org/grpc"
   packages = [
     ".",
@@ -523,8 +272,6 @@
     "metadata",
     "naming",
     "peer",
-    "reflection",
-    "reflection/grpc_reflection_v1alpha",
     "resolver",
     "resolver/dns",
     "resolver/passthrough",
@@ -535,14 +282,6 @@
   pruneopts = "UT"
   revision = "2fdaae294f38ed9a121193c51ec99fecd3b13eb7"
   version = "v1.19.0"
-
-[[projects]]
-  digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"
-  name = "gopkg.in/yaml.v2"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "51d6538a90f86fe93ac480b35f37b2be17fef232"
-  version = "v2.2.2"
 
 [solve-meta]
   analyzer-name = "dep"
@@ -562,13 +301,7 @@
     "github.com/coredns/coredns/request",
     "github.com/mholt/caddy",
     "github.com/miekg/dns",
-    "github.com/nalej/conductor/pkg/conductor/service",
-    "github.com/nalej/conductor/pkg/utils",
     "github.com/nalej/golang-template/version",
-    "github.com/rs/zerolog",
-    "github.com/rs/zerolog/log",
-    "github.com/spf13/cobra",
-    "github.com/spf13/viper",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
