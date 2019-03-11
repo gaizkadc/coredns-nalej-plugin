@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: coredns
-  namespace: nalej
+  namespace: __NPH_NAMESPACE
   labels:
     app: coredns
     kubernetes.io/name: "CoreDNS"
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: coredns
-        image: nalejdev.azurecr.io/gaizka/coredns:v0.2.0
+        image: __NPH_REGISTRY.azurecr.io/__NPH_REGISTRY_NAMESPACE/coredns:__NPH_VERSION
         imagePullPolicy: Always
         args: [ "-conf", "/etc/coredns/Corefile" ]
         volumeMounts:
