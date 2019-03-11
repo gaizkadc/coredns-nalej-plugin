@@ -10,7 +10,7 @@
   revision = "3a771d992973f24aa725d07868b467d1ddfceafb"
 
 [[projects]]
-  digest = "1:0aa7d09676bbe262563772a524e51d79f5a751365e3162d6cf6fdadb7b6bbbf7"
+  digest = "1:f947297919c51ea60b087d79dca068ef7c19f621b8eedffa70ae7508f4d2a82e"
   name = "github.com/coredns/coredns"
   packages = [
     "core/dnsserver",
@@ -22,6 +22,7 @@
     "plugin/dnstap/msg",
     "plugin/dnstap/taprw",
     "plugin/etcd/msg",
+    "plugin/log",
     "plugin/metadata",
     "plugin/metrics",
     "plugin/metrics/vars",
@@ -323,6 +324,7 @@
     "github.com/coredns/coredns/core/dnsserver",
     "github.com/coredns/coredns/coremain",
     "github.com/coredns/coredns/plugin",
+    "github.com/coredns/coredns/plugin/log",
     "github.com/coredns/coredns/plugin/metrics/vars",
     "github.com/coredns/coredns/plugin/pkg/dnstest",
     "github.com/coredns/coredns/plugin/pkg/log",
