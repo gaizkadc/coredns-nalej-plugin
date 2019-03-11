@@ -331,7 +331,6 @@
     "github.com/coredns/coredns/plugin/pkg/rcode",
     "github.com/coredns/coredns/plugin/pkg/replacer",
     "github.com/coredns/coredns/plugin/pkg/response",
-    "github.com/coredns/coredns/plugin/test",
     "github.com/coredns/coredns/plugin/whoami",
     "github.com/coredns/coredns/request",
     "github.com/coredns/proxy",
