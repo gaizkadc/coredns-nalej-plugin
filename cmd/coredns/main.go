@@ -9,6 +9,7 @@ import (
     "github.com/coredns/coredns/core/dnsserver"
     "github.com/coredns/coredns/coremain"
     "github.com/nalej/golang-template/version"
+    _ "github.com/coredns/proxy"
     _ "github.com/coredns/coredns/plugin/whoami"
     _ "github.com/nalej/coredns-nalej-plugin/internal/pkg/corednsnalejplugin"
 )
@@ -16,10 +17,9 @@ import (
 var MainVersion string
 var MainCommit string
 var directives = []string{
+    "proxy",
     "whoami",
-    "startup",
-    "shutdown",
-    "corednscorednsnalejplugin",
+    "corednsnalejplugin",
 }
 
 func init() {

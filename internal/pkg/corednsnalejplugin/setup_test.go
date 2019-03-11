@@ -15,28 +15,28 @@ func TestLogParse(t *testing.T) {
 		shouldErr        bool
 		expectedLogRules []Rule
 	}{
-		{`log`, false, []Rule{{
+		{`corednsnalejplugin`, false, []Rule{{
 			NameScope: ".",
 			Format:    DefaultLogFormat,
 			Class:     map[response.Class]struct{}{response.All: struct{}{}},
 		}}},
-		{`log example.org`, false, []Rule{{
+		{`corednsnalejplugin example.org`, false, []Rule{{
 			NameScope: "example.org.",
 			Format:    DefaultLogFormat,
 			Class:     map[response.Class]struct{}{response.All: struct{}{}},
 		}}},
-		{`log example.org. {common}`, false, []Rule{{
+		{`corednsnalejplugin example.org. {common}`, false, []Rule{{
 			NameScope: "example.org.",
 			Format:    CommonLogFormat,
 			Class:     map[response.Class]struct{}{response.All: struct{}{}},
 		}}},
-		{`log example.org {combined}`, false, []Rule{{
+		{`corednsnalejplugin example.org {combined}`, false, []Rule{{
 			NameScope: "example.org.",
 			Format:    CombinedLogFormat,
 			Class:     map[response.Class]struct{}{response.All: struct{}{}},
 		}}},
-		{`log example.org.
-		log example.net {combined}`, false, []Rule{{
+		{`corednsnalejplugin example.org.
+		corednsnalejplugin example.net {combined}`, false, []Rule{{
 			NameScope: "example.org.",
 			Format:    DefaultLogFormat,
 			Class:     map[response.Class]struct{}{response.All: struct{}{}},
@@ -45,8 +45,8 @@ func TestLogParse(t *testing.T) {
 			Format:    CombinedLogFormat,
 			Class:     map[response.Class]struct{}{response.All: struct{}{}},
 		}}},
-		{`log example.org {host}
-			  log example.org {when}`, false, []Rule{{
+		{`corednsnalejplugin example.org {host}
+			  corednsnalejplugin example.org {when}`, false, []Rule{{
 			NameScope: "example.org.",
 			Format:    "{host}",
 			Class:     map[response.Class]struct{}{response.All: struct{}{}},
@@ -55,7 +55,7 @@ func TestLogParse(t *testing.T) {
 			Format:    "{when}",
 			Class:     map[response.Class]struct{}{response.All: struct{}{}},
 		}}},
-		{`log example.org example.net`, false, []Rule{{
+		{`corednsnalejplugin example.org example.net`, false, []Rule{{
 			NameScope: "example.org.",
 			Format:    DefaultLogFormat,
 			Class:     map[response.Class]struct{}{response.All: struct{}{}},
@@ -64,7 +64,7 @@ func TestLogParse(t *testing.T) {
 			Format:    DefaultLogFormat,
 			Class:     map[response.Class]struct{}{response.All: struct{}{}},
 		}}},
-		{`log example.org example.net {host}`, false, []Rule{{
+		{`corednsnalejplugin example.org example.net {host}`, false, []Rule{{
 			NameScope: "example.org.",
 			Format:    "{host}",
 			Class:     map[response.Class]struct{}{response.All: struct{}{}},
@@ -73,7 +73,7 @@ func TestLogParse(t *testing.T) {
 			Format:    "{host}",
 			Class:     map[response.Class]struct{}{response.All: struct{}{}},
 		}}},
-		{`log example.org example.net {when} {
+		{`corednsnalejplugin example.org example.net {when} {
 			class denial
 		}`, false, []Rule{{
 			NameScope: "example.org.",
@@ -85,35 +85,35 @@ func TestLogParse(t *testing.T) {
 			Class:     map[response.Class]struct{}{response.Denial: struct{}{}},
 		}}},
 
-		{`log example.org {
+		{`corednsnalejplugin example.org {
 				class all
 			}`, false, []Rule{{
 			NameScope: "example.org.",
 			Format:    CommonLogFormat,
 			Class:     map[response.Class]struct{}{response.All: struct{}{}},
 		}}},
-		{`log example.org {
+		{`corednsnalejplugin example.org {
 			class denial
 		}`, false, []Rule{{
 			NameScope: "example.org.",
 			Format:    CommonLogFormat,
 			Class:     map[response.Class]struct{}{response.Denial: struct{}{}},
 		}}},
-		{`log {
+		{`corednsnalejplugin {
 			class denial
 		}`, false, []Rule{{
 			NameScope: ".",
 			Format:    CommonLogFormat,
 			Class:     map[response.Class]struct{}{response.Denial: struct{}{}},
 		}}},
-		{`log {
+		{`corednsnalejplugin {
 			class denial error
 		}`, false, []Rule{{
 			NameScope: ".",
 			Format:    CommonLogFormat,
 			Class:     map[response.Class]struct{}{response.Denial: struct{}{}, response.Error: struct{}{}},
 		}}},
-		{`log {
+		{`corednsnalejplugin {
 			class denial
 			class error
 		}`, false, []Rule{{
@@ -121,13 +121,13 @@ func TestLogParse(t *testing.T) {
 			Format:    CommonLogFormat,
 			Class:     map[response.Class]struct{}{response.Denial: struct{}{}, response.Error: struct{}{}},
 		}}},
-		{`log {
+		{`corednsnalejplugin {
 			class abracadabra
 		}`, true, []Rule{}},
-		{`log {
+		{`corednsnalejplugin {
 			class
 		}`, true, []Rule{}},
-		{`log {
+		{`corednsnalejplugin {
 			unknown
 		}`, true, []Rule{}},
 	}

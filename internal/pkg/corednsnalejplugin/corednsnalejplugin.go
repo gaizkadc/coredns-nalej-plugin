@@ -71,7 +71,7 @@ func (l Logger) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) 
 }
 
 // Name implements the Handler interface.
-func (l Logger) Name() string { return "log" }
+func (l Logger) Name() string { return "corednsnalejplugin" }
 
 // Rule configures the logging plugin.
 type Rule struct {

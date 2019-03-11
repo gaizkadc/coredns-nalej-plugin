@@ -10,29 +10,37 @@
   revision = "3a771d992973f24aa725d07868b467d1ddfceafb"
 
 [[projects]]
-  digest = "1:8691e2e02d2fcc6889f1217eef67be1eb73e7d0caa30915d244ec639c5a44a66"
+  digest = "1:0aa7d09676bbe262563772a524e51d79f5a751365e3162d6cf6fdadb7b6bbbf7"
   name = "github.com/coredns/coredns"
   packages = [
     "core/dnsserver",
     "coremain",
     "pb",
     "plugin",
+    "plugin/dnstap",
+    "plugin/dnstap/dnstapio",
+    "plugin/dnstap/msg",
+    "plugin/dnstap/taprw",
     "plugin/etcd/msg",
     "plugin/metadata",
+    "plugin/metrics",
     "plugin/metrics/vars",
     "plugin/pkg/dnstest",
     "plugin/pkg/dnsutil",
     "plugin/pkg/doh",
     "plugin/pkg/edns",
     "plugin/pkg/fuzz",
+    "plugin/pkg/healthcheck",
     "plugin/pkg/log",
     "plugin/pkg/nonwriter",
     "plugin/pkg/parse",
     "plugin/pkg/rcode",
     "plugin/pkg/replacer",
     "plugin/pkg/response",
+    "plugin/pkg/tls",
     "plugin/pkg/trace",
     "plugin/pkg/transport",
+    "plugin/pkg/uniq",
     "plugin/test",
     "plugin/whoami",
     "request",
@@ -40,6 +48,30 @@
   pruneopts = "UT"
   revision = "8dcc7fccd74454134b33c8bc9f780ed6d7f076cf"
   version = "v1.4.0"
+
+[[projects]]
+  branch = "master"
+  digest = "1:8f4dfd2bc460a96a54d22967b35549a092ca36a6ae1e377b0f7e89b9f21f5f08"
+  name = "github.com/coredns/proxy"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "76cce9be499c1bf0b4d2614a30a8ac99984539e5"
+
+[[projects]]
+  branch = "master"
+  digest = "1:737260890e4b00d73a76993eac1a772cf6a57292f723c47e26f005821efcabcf"
+  name = "github.com/dnstap/golang-dnstap"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "2cf77a2b5e11ac8d0ba3892772ac8e1f7b528344"
+
+[[projects]]
+  branch = "master"
+  digest = "1:26e2bfc6572da45d1bc22de65cbb4d47bf4ab191279719e7aed71f16b865d7db"
+  name = "github.com/farsightsec/golang-framestream"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "8a0cb8ba87105c2d27e725e48e50ce0b5c521d57"
 
 [[projects]]
   branch = "master"
@@ -128,11 +160,12 @@
   version = "v1.0.2"
 
 [[projects]]
-  digest = "1:75d51eeab0df85a3cea9e1297ccd3183b20a10cb4b48c753d8ec8d113cc14250"
+  digest = "1:93a746f1060a8acbcf69344862b2ceced80f854170e1caae089b2834c5fbf7f4"
   name = "github.com/prometheus/client_golang"
   packages = [
     "prometheus",
     "prometheus/internal",
+    "prometheus/promhttp",
   ]
   pruneopts = "UT"
   revision = "505eaef017263e299324067d40ca2c48f6a2cf50"
@@ -299,6 +332,7 @@
     "github.com/coredns/coredns/plugin/test",
     "github.com/coredns/coredns/plugin/whoami",
     "github.com/coredns/coredns/request",
+    "github.com/coredns/proxy",
     "github.com/mholt/caddy",
     "github.com/miekg/dns",
     "github.com/nalej/golang-template/version",

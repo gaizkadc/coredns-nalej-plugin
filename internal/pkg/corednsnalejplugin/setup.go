@@ -13,7 +13,7 @@ import (
 )
 
 func init() {
-	caddy.RegisterPlugin("log", caddy.Plugin{
+	caddy.RegisterPlugin("corednsnalejplugin", caddy.Plugin{
 		ServerType: "dns",
 		Action:     setup,
 	})
@@ -22,7 +22,7 @@ func init() {
 func setup(c *caddy.Controller) error {
 	rules, err := logParse(c)
 	if err != nil {
-		return plugin.Error("log", err)
+		return plugin.Error("corednsnalejplugin", err)
 	}
 
 	dnsserver.GetConfig(c).AddPlugin(func(next plugin.Handler) plugin.Handler {
