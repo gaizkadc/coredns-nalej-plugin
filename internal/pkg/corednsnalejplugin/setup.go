@@ -1,6 +1,7 @@
 package corednsnalejplugin
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/coredns/coredns/core/dnsserver"
@@ -13,6 +14,7 @@ import (
 )
 
 func init() {
+	fmt.Println("plugin.init")
 	caddy.RegisterPlugin("corednsnalejplugin", caddy.Plugin{
 		ServerType: "dns",
 		Action:     setup,
@@ -20,15 +22,16 @@ func init() {
 }
 
 func setup(c *caddy.Controller) error {
+	fmt.Println("plugin.setup")
 	rules, err := logParse(c)
 	if err != nil {
 		return plugin.Error("corednsnalejplugin", err)
 	}
-
+	fmt.Println("plugin.setup2")
 	dnsserver.GetConfig(c).AddPlugin(func(next plugin.Handler) plugin.Handler {
-		return Logger{Next: next, Rules: rules, ErrorFunc: dnsserver.DefaultErrorFunc, repl: replacer.New()}
+		return LoggerD{Next: next, Rules: rules, ErrorFunc: dnsserver.DefaultErrorFunc, repl: replacer.New()}
 	})
-
+	fmt.Println("plugin.setup3")
 	return nil
 }
 

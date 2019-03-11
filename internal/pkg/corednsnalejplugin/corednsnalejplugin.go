@@ -3,6 +3,7 @@ package corednsnalejplugin
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/coredns/coredns/plugin"
@@ -18,7 +19,7 @@ import (
 )
 
 // Logger is a basic request logging plugin.
-type Logger struct {
+type LoggerD struct {
 	Next      plugin.Handler
 	Rules     []Rule
 	ErrorFunc func(context.Context, dns.ResponseWriter, *dns.Msg, int) // failover error handler
@@ -27,7 +28,8 @@ type Logger struct {
 }
 
 // ServeDNS implements the plugin.Handler interface.
-func (l Logger) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
+func (l LoggerD) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
+	fmt.Println("plugin.ServeDNS")
 	state := request.Request{W: w, Req: r}
 	for _, rule := range l.Rules {
 		if !plugin.Name(rule.NameScope).Matches(state.Name()) {
@@ -71,7 +73,7 @@ func (l Logger) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) 
 }
 
 // Name implements the Handler interface.
-func (l Logger) Name() string { return "corednsnalejplugin" }
+func (l LoggerD) Name() string { return "corednsnalejplugin" }
 
 // Rule configures the logging plugin.
 type Rule struct {
