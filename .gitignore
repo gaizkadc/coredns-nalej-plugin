@@ -1,0 +1,7 @@
+bazel-*
+*.swp
+*.idea
+bin/*
+vendor
+vendor/*
+.DS_Store

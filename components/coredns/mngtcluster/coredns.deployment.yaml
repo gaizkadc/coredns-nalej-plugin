@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: coredns
+  namespace: __NPH_NAMESPACE
+  labels:
+    app: coredns
+    kubernetes.io/name: "CoreDNS"
+spec:
+  template:
+    metadata:
+      labels:
+        app: coredns
+    spec:
+      containers:
+      - name: coredns
+        image: __NPH_REGISTRY.azurecr.io/__NPH_REGISTRY_NAMESPACE/coredns:__NPH_VERSION
+        imagePullPolicy: Always
+        args: [ "-conf", "/etc/coredns/Corefile" ]
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/coredns
+          readOnly: true
+        ports:
+        - containerPort: 53
+          name: dns
+          protocol: UDP
+      dnsPolicy: Default
+      imagePullSecrets:
+        - name: nalej-registry
+        - name: nalej-staging-registry
+        - name: nalej-dev-registry
+      volumes:
+        - name: config-volume
+          configMap:
+            name: coredns
+            items:
+            - key: Corefile
+              path: Corefile
