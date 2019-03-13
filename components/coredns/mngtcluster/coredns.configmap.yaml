@@ -6,7 +6,7 @@ metadata:
 data:
   Corefile: |
     .:53 {
-      whoami
+      debug
       corednsnalejplugin {
         systemModelAddress system-model.__NPH_NAMESPACE:8800
       }
