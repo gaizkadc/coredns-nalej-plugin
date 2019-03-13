@@ -7,6 +7,7 @@ data:
   Corefile: |
     .:53 {
       whoami
-      proxy . 8.8.8.8:53
-      corednsnalejplugin stdout
+      corednsnalejplugin {
+        systemModelAddress system-model.__NPH_NAMESPACE:8800
+      }
     }

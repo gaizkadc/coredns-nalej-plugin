@@ -3,90 +3,97 @@ package corednsnalejplugin
 
 import (
 	"context"
-	"fmt"
-	"time"
-
+	"errors"
 	"github.com/coredns/coredns/plugin"
-	"github.com/coredns/coredns/plugin/metrics/vars"
-	"github.com/coredns/coredns/plugin/pkg/dnstest"
-	clog "github.com/coredns/coredns/plugin/pkg/log"
-	"github.com/coredns/coredns/plugin/pkg/rcode"
-	"github.com/coredns/coredns/plugin/pkg/replacer"
-	"github.com/coredns/coredns/plugin/pkg/response"
+	"github.com/coredns/coredns/plugin/pkg/fall"
+	"github.com/coredns/coredns/plugin/pkg/upstream"
 	"github.com/coredns/coredns/request"
-
 	"github.com/miekg/dns"
+	"github.com/nalej/grpc-application-go"
+	"github.com/rs/zerolog/log"
+	"github.com/nalej/grpc-utils/pkg/conversions"
 )
 
-// Logger is a basic request logging plugin.
-type LoggerD struct {
-	Next      plugin.Handler
-	Rules     []Rule
-	ErrorFunc func(context.Context, dns.ResponseWriter, *dns.Msg, int) // failover error handler
+var (
+	ErrNoAvailableEndpoints = errors.New("nalejPluginClient: no available endpoints")
+	ErrOldCluster           = errors.New("nalejPluginClient: old cluster version")
+)
 
-	repl replacer.Replacer
+type NalejPlugin struct {
+	Next       plugin.Handler
+	Fall       fall.F
+	Zones      []string
+	Upstream   *upstream.Upstream
+
+	// SystemModelAddress with the host:port to connect to System Model
+	SystemModelAddress string
+
+	SMClient   grpc_application_go.ApplicationsClient
+	Ctx        context.Context
+
+	endpoints []string // Stored here as well, to aid in testing.
 }
 
 // ServeDNS implements the plugin.Handler interface.
-func (l LoggerD) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
-	fmt.Println("plugin.ServeDNS")
+func (np NalejPlugin) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 	state := request.Request{W: w, Req: r}
-	for _, rule := range l.Rules {
-		if !plugin.Name(rule.NameScope).Matches(state.Name()) {
-			continue
-		}
 
-		rrw := dnstest.NewRecorder(w)
-		rc, err := plugin.NextOrFailure(l.Name(), l.Next, ctx, rrw, r)
-
-		if rc > 0 {
-			// There was an error up the chain, but no response has been written yet.
-			// The error must be handled here so the log entry will record the response size.
-			if l.ErrorFunc != nil {
-				l.ErrorFunc(ctx, rrw, r, rc)
-			} else {
-				answer := new(dns.Msg)
-				answer.SetRcode(r, rc)
-
-				vars.Report(ctx, state, vars.Dropped, rcode.ToString(rc), answer.Len(), time.Now())
-
-				w.WriteMsg(answer)
-			}
-			rc = 0
-		}
-
-		tpe, _ := response.Typify(rrw.Msg, time.Now().UTC())
-		class := response.Classify(tpe)
-		// If we don't set up a class in config, the default "all" will be added
-		// and we shouldn't have an empty rule.Class.
-		_, ok := rule.Class[response.All]
-		_, ok1 := rule.Class[class]
-		if ok || ok1 {
-			logstr := l.repl.Replace(ctx, state, rrw, rule.Format)
-			clog.Infof(logstr)
-		}
-
-		return rc, err
-
+	zone := plugin.Zones(np.Zones).Matches(state.Name())
+	if zone == "" {
+		return plugin.NextOrFailure(np.Name(), np.Next, ctx, w, r)
 	}
-	return plugin.NextOrFailure(l.Name(), l.Next, ctx, w, r)
+
+	var records []dns.RR
+
+	if state.QType() == dns.TypeA {
+		for _, question := range state.Req.Question {
+			log.Info().Interface("question", question.Name).Msg("Incomming request")
+			newRecords, err := np.ResolveEndpoint(question.Name)
+			if err != nil {
+				log.Error().Str("trace", conversions.ToDerror(err).DebugReport()).Str("question", question.Name).Msg("cannot resolve endpoint")
+			}
+			records = append(records, newRecords...)
+		}
+
+	}else{
+		log.Error().Interface("state", state).Msg("unsupported query type")
+	}
+
+	m := new(dns.Msg)
+	m.SetReply(r)
+	m.Authoritative = true
+	m.Answer = append(m.Answer, records...)
+	//m.Extra = append(m.Extra, extra...)
+
+	w.WriteMsg(m)
+	return dns.RcodeSuccess, nil
+}
+
+func (np NalejPlugin) ResolveEndpoint(request string) ([]dns.RR, error) {
+	// Query System Model
+	smRequest := &grpc_application_go.GetAppEndPointRequest{
+		Fqdn:                 request,
+	}
+	result, err := np.SMClient.GetAppEndpoints(context.Background(), smRequest)
+	if err != nil{
+		log.Error().Str("trace", conversions.ToDerror(err).DebugReport()).Msg("cannot retrieve endpoints from system model")
+		return nil, err
+	}
+	log.Info().Int("len", len(result.AppEndpoints)).Msg("endpoints obtained")
+	records := make([]dns.RR, 0)
+	//for _, ep := range result.AppEndpoints{
+	//	toAdd := &dns.A{Hdr: dns.RR_Header{Name: request, Rrtype: dns.TypeA, Class: dns.ClassINET, Ttl: 500}, A: net.IPv4(8, 8 ,8, 8)}
+	//	log.Info().Interface("fqdn", ep.EndpointInstance.Fqdn).Msg("FQDN queried")
+	//	records = append(records, toAdd)
+	//}
+	for _, ep := range result.AppEndpoints{
+		toAdd := &dns.CNAME{Hdr: dns.RR_Header{Name: request, Rrtype: dns.TypeCNAME, Class: dns.ClassINET, Ttl: 500}, Target: dns.Fqdn(ep.EndpointInstance.Fqdn)}
+		records = append(records, toAdd)
+	}
+
+	return records, nil
 }
 
 // Name implements the Handler interface.
-func (l LoggerD) Name() string { return "corednsnalejplugin" }
+func (np NalejPlugin) Name() string { return "corednsnalejplugin" }
 
-// Rule configures the logging plugin.
-type Rule struct {
-	NameScope string
-	Class     map[response.Class]struct{}
-	Format    string
-}
-
-const (
-	// CommonLogFormat is the common log format.
-	CommonLogFormat = `{remote}:{port} ` + replacer.EmptyValue + ` {>id} "{type} {class} {name} {proto} {size} {>do} {>bufsize}" {rcode} {>rflags} {rsize} {duration}`
-	// CombinedLogFormat is the combined log format.
-	CombinedLogFormat = CommonLogFormat + ` "{>opcode}"`
-	// DefaultLogFormat is the default log format.
-	DefaultLogFormat = CommonLogFormat
-)

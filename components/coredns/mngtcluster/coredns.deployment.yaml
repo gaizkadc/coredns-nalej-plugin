@@ -25,7 +25,6 @@ spec:
         - containerPort: 53
           name: dns
           protocol: UDP
-      dnsPolicy: Default
       imagePullSecrets:
         - name: nalej-registry
         - name: nalej-staging-registry

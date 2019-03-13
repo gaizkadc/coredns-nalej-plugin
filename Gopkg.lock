@@ -10,7 +10,7 @@
   revision = "3a771d992973f24aa725d07868b467d1ddfceafb"
 
 [[projects]]
-  digest = "1:f947297919c51ea60b087d79dca068ef7c19f621b8eedffa70ae7508f4d2a82e"
+  digest = "1:694153495763efe76f0afa8326f80f2970e0ee1eaecc0a94715918d0d829d820"
   name = "github.com/coredns/coredns"
   packages = [
     "core/dnsserver",
@@ -30,8 +30,8 @@
     "plugin/pkg/dnsutil",
     "plugin/pkg/doh",
     "plugin/pkg/edns",
+    "plugin/pkg/fall",
     "plugin/pkg/fuzz",
-    "plugin/pkg/healthcheck",
     "plugin/pkg/log",
     "plugin/pkg/nonwriter",
     "plugin/pkg/parse",
@@ -42,6 +42,7 @@
     "plugin/pkg/trace",
     "plugin/pkg/transport",
     "plugin/pkg/uniq",
+    "plugin/pkg/upstream",
     "plugin/test",
     "plugin/whoami",
     "request",
@@ -52,11 +53,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:8f4dfd2bc460a96a54d22967b35549a092ca36a6ae1e377b0f7e89b9f21f5f08"
+  digest = "1:45f6bc1b2ef954d640d215550acd6aa91b93ae4ebd232d31c754891ee7b66baf"
   name = "github.com/coredns/proxy"
-  packages = ["."]
+  packages = [
+    ".",
+    "healthcheck",
+  ]
   pruneopts = "UT"
-  revision = "76cce9be499c1bf0b4d2614a30a8ac99984539e5"
+  revision = "36a505170348e4d4ebc6d903d81a374c6d8550bb"
 
 [[projects]]
   branch = "master"
@@ -133,12 +137,20 @@
   version = "v0.11.5"
 
 [[projects]]
-  digest = "1:1b46adc9e3d878cdf38a164cfdac2e19340f4d2662aa5bee88062f6ee08ac9df"
+  digest = "1:4c195ae33dbe8df4eb3485f3357788f47b614547abcd048cbcc59d9025db6b8d"
   name = "github.com/miekg/dns"
   packages = ["."]
   pruneopts = "UT"
-  revision = "8fc2e5773bbd308ca2fcc962fd8d25c1bd0f6743"
-  version = "v1.1.4"
+  revision = "cc8cd02140663157ce797c6650488d6c8563f31f"
+  version = "v1.1.6"
+
+[[projects]]
+  digest = "1:b4e5da75c2b97eca42007c3be5edf9b0a6d1bc60c791dd57317fd37f293cf26d"
+  name = "github.com/nalej/derrors"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "7a6df7f0bb1c7cddfec82c91119f193f6fcbc9d5"
+  version = "v2.0.0"
 
 [[projects]]
   branch = "master"
@@ -147,6 +159,38 @@
   packages = ["version"]
   pruneopts = "UT"
   revision = "963fce8db8e46778ce622932e01b7a643d10ed01"
+
+[[projects]]
+  digest = "1:4313aab0810afbee1c351169a383d9bfa1ab5977509494561e10475711dba79a"
+  name = "github.com/nalej/grpc-application-go"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "40f9143b49015d976f28c8eca34e69f9218a8214"
+  version = "v0.0.59"
+
+[[projects]]
+  digest = "1:41496e67504a2c5de20d1b003df34424ea413ad31993ad099a55b9cc8a9c8896"
+  name = "github.com/nalej/grpc-common-go"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "e1513decc4192934536180d456748a4c3dec0245"
+  version = "v0.0.30"
+
+[[projects]]
+  digest = "1:5c0f5a204bb887b0d91ec6512ad4ece5ecc422675cbc834f89abdb22c8e0282c"
+  name = "github.com/nalej/grpc-organization-go"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "c571882666c05213df408ae9da8ab08f71a7a7bb"
+  version = "v0.0.28"
+
+[[projects]]
+  digest = "1:558c4bf92d329a894b7ed9049b8052ea60afe53b43654c2ca31539b63154d512"
+  name = "github.com/nalej/grpc-utils"
+  packages = ["pkg/conversions"]
+  pruneopts = "UT"
+  revision = "3763d699ec598000c8095dc4d2e86a3ec0a169ff"
+  version = "v1.3.1"
 
 [[projects]]
   digest = "1:450b7623b185031f3a456801155c8320209f75d0d4c4e633c6b1e59d44d6e392"
@@ -207,6 +251,19 @@
   revision = "d0f344d83b0c80a1bc03b547a2374a9ec6711144"
 
 [[projects]]
+  digest = "1:418b49380dbaa8b8fb72740658acb74f176a056b9d041d4b761edbf770555c3d"
+  name = "github.com/rs/zerolog"
+  packages = [
+    ".",
+    "internal/cbor",
+    "internal/json",
+    "log",
+  ]
+  pruneopts = "UT"
+  revision = "6d6350a51143b5c0d0a6a3b736ee2b41315f7269"
+  version = "v1.12.0"
+
+[[projects]]
   branch = "master"
   digest = "1:d5891c5bca9c62e5d394ca26491d2b710a1dc08cedeb0ca8f9ac4c3305120b02"
   name = "golang.org/x/crypto"
@@ -215,11 +272,11 @@
     "ed25519/internal/edwards25519",
   ]
   pruneopts = "UT"
-  revision = "8dd112bcdc25174059e45e07517d9fc663123347"
+  revision = "a1f597ede03a7bef967a422b5b3a5bd08805a01e"
 
 [[projects]]
   branch = "master"
-  digest = "1:249fbe853179a28b5220216c010604359cd67d7093a61e952ce9cfc667a05ecd"
+  digest = "1:aba492daea0481c4b560a1e846ddc70ecd51407164bee9da3af0cbb931c6ab5f"
   name = "golang.org/x/net"
   packages = [
     "bpf",
@@ -236,15 +293,15 @@
     "trace",
   ]
   pruneopts = "UT"
-  revision = "16b79f2e4e95ea23b2bf9903c9809ff7b013ce85"
+  revision = "d8887717615a059821345a5c23649351b52a1c0b"
 
 [[projects]]
   branch = "master"
-  digest = "1:7ea2a5bdb9273298b19f6c14d01c11f592ed57bd6a658f7c0ddf9927011cc763"
+  digest = "1:f36c7b9a36158e62ffe5d8b02d1b5955500c13106cdaeebf5323d88863cae96f"
   name = "golang.org/x/sys"
   packages = ["unix"]
   pruneopts = "UT"
-  revision = "584f3b12f43e1e55248c90e84804777009eed0a4"
+  revision = "fead79001313d15903fb4605b4a1b781532cd93e"
 
 [[projects]]
   digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"
@@ -271,9 +328,12 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:c3076e7defee87de1236f1814beb588f40a75544c60121e6eb38b3b3721783e2"
+  digest = "1:4ac715d0cd21b7c9c5cc7bfd49c58ae261dfe9246e9e3881c01bbd8939f3400e"
   name = "google.golang.org/genproto"
-  packages = ["googleapis/rpc/status"]
+  packages = [
+    "googleapis/rpc/errdetails",
+    "googleapis/rpc/status",
+  ]
   pruneopts = "UT"
   revision = "5fe7a883aa19554f42890211544aa549836af7b7"
 
@@ -325,18 +385,18 @@
     "github.com/coredns/coredns/coremain",
     "github.com/coredns/coredns/plugin",
     "github.com/coredns/coredns/plugin/log",
-    "github.com/coredns/coredns/plugin/metrics/vars",
-    "github.com/coredns/coredns/plugin/pkg/dnstest",
-    "github.com/coredns/coredns/plugin/pkg/log",
-    "github.com/coredns/coredns/plugin/pkg/rcode",
-    "github.com/coredns/coredns/plugin/pkg/replacer",
-    "github.com/coredns/coredns/plugin/pkg/response",
+    "github.com/coredns/coredns/plugin/pkg/fall",
+    "github.com/coredns/coredns/plugin/pkg/upstream",
     "github.com/coredns/coredns/plugin/whoami",
     "github.com/coredns/coredns/request",
     "github.com/coredns/proxy",
     "github.com/mholt/caddy",
     "github.com/miekg/dns",
     "github.com/nalej/golang-template/version",
+    "github.com/nalej/grpc-application-go",
+    "github.com/nalej/grpc-utils/pkg/conversions",
+    "github.com/rs/zerolog/log",
+    "google.golang.org/grpc",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

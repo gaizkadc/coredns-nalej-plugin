@@ -37,6 +37,19 @@
   name = "github.com/miekg/dns"
   version = "1.1.4"
 
+[[constraint]]
+  name = "github.com/nalej/grpc-application-go"
+  version = "v0.0.58"
+
+[[constraint]]
+    name="github.com/nalej/grpc-utils"
+    version="v1.3.1"
+
+[[constraint]]
+    name="github.com/rs/zerolog"
+    version="v1.8.0"
+
+
 [prune]
   go-tests = true
   unused-packages = true
