@@ -10,73 +10,32 @@
   revision = "3a771d992973f24aa725d07868b467d1ddfceafb"
 
 [[projects]]
-  digest = "1:694153495763efe76f0afa8326f80f2970e0ee1eaecc0a94715918d0d829d820"
+  digest = "1:236d03472960f3a8478d3ae62ad044d1ec4f3aedd0fbef460ba844833d07587e"
   name = "github.com/coredns/coredns"
   packages = [
     "core/dnsserver",
     "coremain",
     "pb",
     "plugin",
-    "plugin/dnstap",
-    "plugin/dnstap/dnstapio",
-    "plugin/dnstap/msg",
-    "plugin/dnstap/taprw",
     "plugin/etcd/msg",
-    "plugin/log",
-    "plugin/metadata",
-    "plugin/metrics",
     "plugin/metrics/vars",
-    "plugin/pkg/dnstest",
     "plugin/pkg/dnsutil",
     "plugin/pkg/doh",
     "plugin/pkg/edns",
     "plugin/pkg/fall",
-    "plugin/pkg/fuzz",
     "plugin/pkg/log",
     "plugin/pkg/nonwriter",
     "plugin/pkg/parse",
     "plugin/pkg/rcode",
-    "plugin/pkg/replacer",
     "plugin/pkg/response",
-    "plugin/pkg/tls",
     "plugin/pkg/trace",
     "plugin/pkg/transport",
-    "plugin/pkg/uniq",
     "plugin/pkg/upstream",
-    "plugin/test",
-    "plugin/whoami",
     "request",
   ]
   pruneopts = "UT"
   revision = "8dcc7fccd74454134b33c8bc9f780ed6d7f076cf"
   version = "v1.4.0"
-
-[[projects]]
-  branch = "master"
-  digest = "1:45f6bc1b2ef954d640d215550acd6aa91b93ae4ebd232d31c754891ee7b66baf"
-  name = "github.com/coredns/proxy"
-  packages = [
-    ".",
-    "healthcheck",
-  ]
-  pruneopts = "UT"
-  revision = "36a505170348e4d4ebc6d903d81a374c6d8550bb"
-
-[[projects]]
-  branch = "master"
-  digest = "1:737260890e4b00d73a76993eac1a772cf6a57292f723c47e26f005821efcabcf"
-  name = "github.com/dnstap/golang-dnstap"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "2cf77a2b5e11ac8d0ba3892772ac8e1f7b528344"
-
-[[projects]]
-  branch = "master"
-  digest = "1:26e2bfc6572da45d1bc22de65cbb4d47bf4ab191279719e7aed71f16b865d7db"
-  name = "github.com/farsightsec/golang-framestream"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "8a0cb8ba87105c2d27e725e48e50ce0b5c521d57"
 
 [[projects]]
   branch = "master"
@@ -205,12 +164,11 @@
   version = "v1.0.2"
 
 [[projects]]
-  digest = "1:93a746f1060a8acbcf69344862b2ceced80f854170e1caae089b2834c5fbf7f4"
+  digest = "1:75d51eeab0df85a3cea9e1297ccd3183b20a10cb4b48c753d8ec8d113cc14250"
   name = "github.com/prometheus/client_golang"
   packages = [
     "prometheus",
     "prometheus/internal",
-    "prometheus/promhttp",
   ]
   pruneopts = "UT"
   revision = "505eaef017263e299324067d40ca2c48f6a2cf50"
@@ -384,17 +342,15 @@
     "github.com/coredns/coredns/core/dnsserver",
     "github.com/coredns/coredns/coremain",
     "github.com/coredns/coredns/plugin",
-    "github.com/coredns/coredns/plugin/log",
     "github.com/coredns/coredns/plugin/pkg/fall",
     "github.com/coredns/coredns/plugin/pkg/upstream",
-    "github.com/coredns/coredns/plugin/whoami",
     "github.com/coredns/coredns/request",
-    "github.com/coredns/proxy",
     "github.com/mholt/caddy",
     "github.com/miekg/dns",
     "github.com/nalej/golang-template/version",
     "github.com/nalej/grpc-application-go",
     "github.com/nalej/grpc-utils/pkg/conversions",
+    "github.com/rs/zerolog",
     "github.com/rs/zerolog/log",
     "google.golang.org/grpc",
   ]

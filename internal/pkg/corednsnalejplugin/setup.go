@@ -7,6 +7,7 @@ import (
 	"github.com/coredns/coredns/plugin"
 	"github.com/mholt/caddy"
 	"github.com/nalej/grpc-application-go"
+	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
 	"net"
@@ -39,6 +40,7 @@ func corednsnalejpluginParse (c *caddy.Controller) (*NalejPlugin, error) {
 	nalejPlugin := NalejPlugin{
 		Ctx:        context.Background(),
 	}
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 	for c.Next() {
 		nalejPlugin.Zones = c.RemainingArgs()
 		if len(nalejPlugin.Zones) == 0 {
@@ -59,6 +61,8 @@ func corednsnalejpluginParse (c *caddy.Controller) (*NalejPlugin, error) {
 						return &NalejPlugin{}, c.Errf("system model address expected")
 					}
 					nalejPlugin.SystemModelAddress = address[0]
+				case "debug":
+					zerolog.SetGlobalLevel(zerolog.DebugLevel)
 				default:
 					if c.Val() != "}" {
 						return &NalejPlugin{}, c.Errf("unknown property '%s'", c.Val())
