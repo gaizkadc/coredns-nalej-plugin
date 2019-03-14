@@ -9,7 +9,7 @@ import (
     "github.com/coredns/coredns/core/dnsserver"
     "github.com/coredns/coredns/coremain"
     _ "github.com/nalej/coredns-nalej-plugin/internal/pkg/corednsnalejplugin"
-    "github.com/nalej/golang-template/version"
+    "github.com/nalej/coredns-nalej-plugin/version"
 )
 
 var DebugLevel bool

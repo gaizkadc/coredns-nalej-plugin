@@ -112,14 +112,6 @@
   version = "v2.0.0"
 
 [[projects]]
-  branch = "master"
-  digest = "1:a6b987fe6cbd3f006d65f41287bb918bd1829060857486f49bcd18ef620e7782"
-  name = "github.com/nalej/golang-template"
-  packages = ["version"]
-  pruneopts = "UT"
-  revision = "963fce8db8e46778ce622932e01b7a643d10ed01"
-
-[[projects]]
   digest = "1:4313aab0810afbee1c351169a383d9bfa1ab5977509494561e10475711dba79a"
   name = "github.com/nalej/grpc-application-go"
   packages = ["."]
@@ -347,7 +339,6 @@
     "github.com/coredns/coredns/request",
     "github.com/mholt/caddy",
     "github.com/miekg/dns",
-    "github.com/nalej/golang-template/version",
     "github.com/nalej/grpc-application-go",
     "github.com/nalej/grpc-utils/pkg/conversions",
     "github.com/rs/zerolog",

@@ -7,6 +7,7 @@ import (
 	"github.com/coredns/coredns/plugin"
 	"github.com/mholt/caddy"
 	"github.com/nalej/grpc-application-go"
+	"github.com/nalej/coredns-nalej-plugin/version"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
@@ -27,6 +28,8 @@ func setup(c *caddy.Controller) error {
 	if err != nil {
 		return plugin.Error("corednsnalejplugin", err)
 	}
+
+	log.Info().Str("app", version.AppVersion).Str("commit", version.Commit).Msg("Version")
 
 	dnsserver.GetConfig(c).AddPlugin(func(next plugin.Handler) plugin.Handler {
 		n.Next = next
