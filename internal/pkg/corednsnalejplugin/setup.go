@@ -1,16 +1,18 @@
 package corednsnalejplugin
 
 import (
+	"context"
 	"fmt"
-	"strings"
-
 	"github.com/coredns/coredns/core/dnsserver"
 	"github.com/coredns/coredns/plugin"
-	"github.com/coredns/coredns/plugin/pkg/replacer"
-	"github.com/coredns/coredns/plugin/pkg/response"
-
 	"github.com/mholt/caddy"
-	"github.com/miekg/dns"
+	"github.com/nalej/grpc-application-go"
+	"github.com/nalej/coredns-nalej-plugin/version"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
+	"google.golang.org/grpc"
+	"net"
+	"strings"
 )
 
 func init() {
@@ -22,95 +24,79 @@ func init() {
 }
 
 func setup(c *caddy.Controller) error {
-	fmt.Println("plugin.setup")
-	rules, err := logParse(c)
+	n, err := corednsnalejpluginParse(c)
 	if err != nil {
 		return plugin.Error("corednsnalejplugin", err)
 	}
-	fmt.Println("plugin.setup2")
+
+	log.Info().Str("app", version.AppVersion).Str("commit", version.Commit).Msg("Version")
+
 	dnsserver.GetConfig(c).AddPlugin(func(next plugin.Handler) plugin.Handler {
-		return LoggerD{Next: next, Rules: rules, ErrorFunc: dnsserver.DefaultErrorFunc, repl: replacer.New()}
+		n.Next = next
+		return n
 	})
-	fmt.Println("plugin.setup3")
+
 	return nil
 }
 
-func logParse(c *caddy.Controller) ([]Rule, error) {
-	var rules []Rule
-
-	for c.Next() {
-		args := c.RemainingArgs()
-		length := len(rules)
-
-		switch len(args) {
-		case 0:
-			// Nothing specified; use defaults
-			rules = append(rules, Rule{
-				NameScope: ".",
-				Format:    DefaultLogFormat,
-				Class:     make(map[response.Class]struct{}),
-			})
-		case 1:
-			rules = append(rules, Rule{
-				NameScope: dns.Fqdn(args[0]),
-				Format:    DefaultLogFormat,
-				Class:     make(map[response.Class]struct{}),
-			})
-		default:
-			// Name scopes, and maybe a format specified
-			format := DefaultLogFormat
-
-			if strings.Contains(args[len(args)-1], "{") {
-				switch args[len(args)-1] {
-				case "{common}":
-					format = CommonLogFormat
-				case "{combined}":
-					format = CombinedLogFormat
-				default:
-					format = args[len(args)-1]
-				}
-
-				args = args[:len(args)-1]
-			}
-
-			for _, str := range args {
-				rules = append(rules, Rule{
-					NameScope: dns.Fqdn(str),
-					Format:    format,
-					Class:     make(map[response.Class]struct{}),
-				})
-			}
-		}
-
-		// Class refinements in an extra block.
-		classes := make(map[response.Class]struct{})
-		for c.NextBlock() {
-			switch c.Val() {
-			// class followed by combinations of all, denial, error and success.
-			case "class":
-				classesArgs := c.RemainingArgs()
-				if len(classesArgs) == 0 {
-					return nil, c.ArgErr()
-				}
-				for _, c := range classesArgs {
-					cls, err := response.ClassFromString(c)
-					if err != nil {
-						return nil, err
-					}
-					classes[cls] = struct{}{}
-				}
-			default:
-				return nil, c.ArgErr()
-			}
-		}
-		if len(classes) == 0 {
-			classes[response.All] = struct{}{}
-		}
-
-		for i := len(rules) - 1; i >= length; i -= 1 {
-			rules[i].Class = classes
-		}
+func corednsnalejpluginParse (c *caddy.Controller) (*NalejPlugin, error) {
+	nalejPlugin := NalejPlugin{
+		Ctx:        context.Background(),
 	}
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	for c.Next() {
+		nalejPlugin.Zones = c.RemainingArgs()
+		if len(nalejPlugin.Zones) == 0 {
+			nalejPlugin.Zones = make([]string, len(c.ServerBlockKeys))
+			copy(nalejPlugin.Zones, c.ServerBlockKeys)
+		}
+		for i, str := range nalejPlugin.Zones {
+			nalejPlugin.Zones[i] = plugin.Host(str).Normalize()
+		}
 
-	return rules, nil
+		if c.NextBlock() {
+			for {
+				switch c.Val() {
+
+				case "systemModelAddress":
+					address := c.RemainingArgs()
+					if len(address) != 1 {
+						return &NalejPlugin{}, c.Errf("system model address expected")
+					}
+					nalejPlugin.SystemModelAddress = address[0]
+				case "debug":
+					zerolog.SetGlobalLevel(zerolog.DebugLevel)
+				default:
+					if c.Val() != "}" {
+						return &NalejPlugin{}, c.Errf("unknown property '%s'", c.Val())
+					}
+				}
+
+				if !c.Next() {
+					break
+				}
+			}
+
+		}
+		log.Info().Str("URL", nalejPlugin.SystemModelAddress).Msg("System Model")
+
+		sp := strings.Split(nalejPlugin.SystemModelAddress, ":")
+		ips, err := net.LookupIP(sp[0])
+		if err != nil {
+			log.Error().Err(err).Msg("cannot get ips")
+		}
+		for _, ip := range ips {
+			log.Info().Str("A", ip.String()).Msg("answer")
+		}
+
+		smConn, err := grpc.Dial(nalejPlugin.SystemModelAddress, grpc.WithInsecure())
+		if err != nil{
+			return nil, c.Errf("cannot create connection with system model")
+		}
+
+		nalejPlugin.SMClient = grpc_application_go.NewApplicationsClient(smConn)
+
+		return &nalejPlugin, nil
+	}
+	return &NalejPlugin{}, nil
 }
