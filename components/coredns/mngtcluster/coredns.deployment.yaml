@@ -6,19 +6,16 @@ metadata:
   labels:
     cluster: management
     component: external-dns
-    app: coredns
 spec:
   selector:
     matchLabels:
       cluster: management
       component: external-dns
-      app: coredns
   template:
     metadata:
       labels:
         cluster: management
         component: external-dns
-        app: coredns
     spec:
       containers:
       - name: coredns
