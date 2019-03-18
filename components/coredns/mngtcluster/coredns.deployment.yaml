@@ -1,16 +1,21 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: coredns
   namespace: __NPH_NAMESPACE
   labels:
-    app: coredns
-    kubernetes.io/name: "CoreDNS"
+    cluster: management
+    component: external-dns
 spec:
+  selector:
+    matchLabels:
+      cluster: management
+      component: external-dns
   template:
     metadata:
       labels:
-        app: coredns
+        cluster: management
+        component: external-dns
     spec:
       containers:
       - name: coredns
@@ -27,8 +32,6 @@ spec:
           protocol: UDP
       imagePullSecrets:
         - name: nalej-registry
-        - name: nalej-staging-registry
-        - name: nalej-dev-registry
       volumes:
         - name: config-volume
           configMap:
