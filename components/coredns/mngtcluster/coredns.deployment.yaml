@@ -28,7 +28,7 @@ spec:
           readOnly: true
         ports:
         - containerPort: 53
-          name: dns
+          name: dns-udp
           protocol: UDP
       imagePullSecrets:
         - name: nalej-registry
