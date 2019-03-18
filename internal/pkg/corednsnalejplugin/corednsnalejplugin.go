@@ -56,6 +56,12 @@ func (np NalejPlugin) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns
 		log.Error().Interface("state", state).Msg("unsupported query type")
 	}
 
+	m := new(dns.Msg)
+	m.SetReply(r)
+	m.Authoritative = true
+	m.Answer = append(m.Answer, records...)
+	w.WriteMsg(m)
+
 	return dns.RcodeSuccess, nil
 }
 
@@ -75,6 +81,7 @@ func (np NalejPlugin) ResolveEndpoint(request string) ([]dns.RR, error) {
 	for _, ep := range result.AppEndpoints{
 		toAdd := &dns.CNAME{Hdr: dns.RR_Header{Name: request, Rrtype: dns.TypeCNAME, Class: dns.ClassINET, Ttl: defaultTTL}, Target: dns.Fqdn(ep.EndpointInstance.Fqdn)}
 		records = append(records, toAdd)
+		log.Debug().Str("target", toAdd.Target).Msg(toAdd.Target)
 	}
 
 	return records, nil
