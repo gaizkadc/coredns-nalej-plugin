@@ -11,6 +11,7 @@ import (
 	"github.com/nalej/grpc-application-go"
 	"github.com/nalej/grpc-utils/pkg/conversions"
 	"github.com/rs/zerolog/log"
+	"net"
 )
 
 const defaultTTL = 5
@@ -79,9 +80,21 @@ func (np NalejPlugin) ResolveEndpoint(request string) ([]dns.RR, error) {
 	records := make([]dns.RR, 0)
 
 	for _, ep := range result.AppEndpoints{
-		toAdd := &dns.CNAME{Hdr: dns.RR_Header{Name: request, Rrtype: dns.TypeCNAME, Class: dns.ClassINET, Ttl: defaultTTL}, Target: dns.Fqdn(ep.EndpointInstance.Fqdn)}
-		records = append(records, toAdd)
-		log.Debug().Str("target", toAdd.Target).Msg(toAdd.Target)
+		if ep.EndpointInstance.Type == grpc_application_go.EndpointType_WEB {
+			toAdd := &dns.CNAME{
+				Hdr: dns.RR_Header{Name: request, Rrtype: dns.TypeCNAME, Class: dns.ClassINET, Ttl: defaultTTL},
+				Target: dns.Fqdn(ep.EndpointInstance.Fqdn),
+			}
+			records = append(records, toAdd)
+			log.Debug().Str("target", toAdd.Target).Msg("CNAME")
+		}else if ep.EndpointInstance.Type == grpc_application_go.EndpointType_INGESTION {
+			toAdd := &dns.A{
+				Hdr: dns.RR_Header{Name: request, Rrtype: dns.TypeA, Class: dns.ClassINET, Ttl: defaultTTL},
+				A:   net.ParseIP(ep.EndpointInstance.Fqdn),
+			}
+			records = append(records, toAdd)
+			log.Debug().Str("IP", toAdd.A.String()).Msg("A")
+		}
 	}
 
 	return records, nil
