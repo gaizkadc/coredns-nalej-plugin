@@ -8,6 +8,5 @@ data:
     .:53 {
       corednsnalejplugin {
         systemModelAddress system-model.__NPH_NAMESPACE:8800
-        debug
       }
     }
