@@ -94,6 +94,8 @@ func (np NalejPlugin) ResolveEndpoint(request string) ([]dns.RR, error) {
 			}
 			records = append(records, toAdd)
 			log.Debug().Str("IP", toAdd.A.String()).Msg("A")
+		} else {
+			log.Warn().Interface("request type", ep.EndpointInstance.Type).Msg("request type not recognized")
 		}
 	}
 
