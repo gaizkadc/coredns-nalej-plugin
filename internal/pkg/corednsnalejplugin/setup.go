@@ -6,8 +6,8 @@ import (
 	"github.com/coredns/coredns/core/dnsserver"
 	"github.com/coredns/coredns/plugin"
 	"github.com/mholt/caddy"
-	"github.com/nalej/grpc-application-go"
 	"github.com/nalej/coredns-nalej-plugin/version"
+	"github.com/nalej/grpc-application-go"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
@@ -39,9 +39,9 @@ func setup(c *caddy.Controller) error {
 	return nil
 }
 
-func corednsnalejpluginParse (c *caddy.Controller) (*NalejPlugin, error) {
+func corednsnalejpluginParse(c *caddy.Controller) (*NalejPlugin, error) {
 	nalejPlugin := NalejPlugin{
-		Ctx:        context.Background(),
+		Ctx: context.Background(),
 	}
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 	for c.Next() {
@@ -90,7 +90,7 @@ func corednsnalejpluginParse (c *caddy.Controller) (*NalejPlugin, error) {
 		}
 
 		smConn, err := grpc.Dial(nalejPlugin.SystemModelAddress, grpc.WithInsecure())
-		if err != nil{
+		if err != nil {
 			return nil, c.Errf("cannot create connection with system model")
 		}
 
