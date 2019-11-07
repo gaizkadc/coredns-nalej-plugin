@@ -1,3 +1,19 @@
+/*
+ * Copyright 2019 Nalej
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package corednsnalejplugin
 
 import (
@@ -6,8 +22,8 @@ import (
 	"github.com/coredns/coredns/core/dnsserver"
 	"github.com/coredns/coredns/plugin"
 	"github.com/mholt/caddy"
-	"github.com/nalej/grpc-application-go"
 	"github.com/nalej/coredns-nalej-plugin/version"
+	"github.com/nalej/grpc-application-go"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
@@ -39,9 +55,9 @@ func setup(c *caddy.Controller) error {
 	return nil
 }
 
-func corednsnalejpluginParse (c *caddy.Controller) (*NalejPlugin, error) {
+func corednsnalejpluginParse(c *caddy.Controller) (*NalejPlugin, error) {
 	nalejPlugin := NalejPlugin{
-		Ctx:        context.Background(),
+		Ctx: context.Background(),
 	}
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 	for c.Next() {
@@ -90,7 +106,7 @@ func corednsnalejpluginParse (c *caddy.Controller) (*NalejPlugin, error) {
 		}
 
 		smConn, err := grpc.Dial(nalejPlugin.SystemModelAddress, grpc.WithInsecure())
-		if err != nil{
+		if err != nil {
 			return nil, c.Errf("cannot create connection with system model")
 		}
 

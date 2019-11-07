@@ -1,3 +1,19 @@
+/*
+ * Copyright 2019 Nalej
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 // Package log implements basic but useful request (access) logging plugin.
 package corednsnalejplugin
 
@@ -17,16 +33,16 @@ import (
 const defaultTTL = 5
 
 type NalejPlugin struct {
-	Next       plugin.Handler
-	Fall       fall.F
-	Zones      []string
-	Upstream   *upstream.Upstream
+	Next     plugin.Handler
+	Fall     fall.F
+	Zones    []string
+	Upstream *upstream.Upstream
 
 	// SystemModelAddress with the host:port to connect to System Model
 	SystemModelAddress string
 
-	SMClient   grpc_application_go.ApplicationsClient
-	Ctx        context.Context
+	SMClient grpc_application_go.ApplicationsClient
+	Ctx      context.Context
 
 	endpoints []string // Stored here as well, to aid in testing.
 }
@@ -53,7 +69,7 @@ func (np NalejPlugin) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns
 			}
 		}
 
-	}else{
+	} else {
 		log.Error().Interface("state", state).Msg("unsupported query type")
 	}
 
@@ -69,25 +85,25 @@ func (np NalejPlugin) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns
 func (np NalejPlugin) ResolveEndpoint(request string) ([]dns.RR, error) {
 	// Query System Model
 	smRequest := &grpc_application_go.GetAppEndPointRequest{
-		Fqdn:                 request,
+		Fqdn: request,
 	}
 	result, err := np.SMClient.GetAppEndpoints(context.Background(), smRequest)
-	if err != nil{
+	if err != nil {
 		log.Error().Str("trace", conversions.ToDerror(err).DebugReport()).Msg("cannot retrieve endpoints from system model")
 		return nil, err
 	}
 	log.Debug().Int("len", len(result.AppEndpoints)).Msg("endpoints obtained")
 	records := make([]dns.RR, 0)
 
-	for _, ep := range result.AppEndpoints{
+	for _, ep := range result.AppEndpoints {
 		if ep.EndpointInstance.Type == grpc_application_go.EndpointType_WEB {
 			toAdd := &dns.CNAME{
-				Hdr: dns.RR_Header{Name: request, Rrtype: dns.TypeCNAME, Class: dns.ClassINET, Ttl: defaultTTL},
+				Hdr:    dns.RR_Header{Name: request, Rrtype: dns.TypeCNAME, Class: dns.ClassINET, Ttl: defaultTTL},
 				Target: dns.Fqdn(ep.EndpointInstance.Fqdn),
 			}
 			records = append(records, toAdd)
 			log.Debug().Str("target", toAdd.Target).Msg("CNAME")
-		}else if ep.EndpointInstance.Type == grpc_application_go.EndpointType_INGESTION {
+		} else if ep.EndpointInstance.Type == grpc_application_go.EndpointType_INGESTION {
 			toAdd := &dns.A{
 				Hdr: dns.RR_Header{Name: request, Rrtype: dns.TypeA, Class: dns.ClassINET, Ttl: defaultTTL},
 				A:   net.ParseIP(ep.EndpointInstance.Fqdn),
@@ -104,4 +120,3 @@ func (np NalejPlugin) ResolveEndpoint(request string) ([]dns.RR, error) {
 
 // Name implements the Handler interface.
 func (np NalejPlugin) Name() string { return "corednsnalejplugin" }
-
