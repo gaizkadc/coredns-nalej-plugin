@@ -8,7 +8,6 @@
     "coredns"
   ],
   "tools": [
-    "azure",
     "k8s",
     "docker"
   ]
