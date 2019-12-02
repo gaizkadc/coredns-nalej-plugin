@@ -8,6 +8,9 @@
   "image_list": [
     "coredns"
   ],
+  "component_list": [
+    "coredns"
+  ],
   "tools": [
     "k8s",
     "docker"
