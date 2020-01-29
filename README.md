@@ -1,14 +1,12 @@
 # coredns-nalej-plugin
 
-CoreDNS Plugin for Nalej.
+CoreDNS Plugin for Nalej. This plugin will be used by the `coredns` instance deployed on the platform. This instance serves as an external DNS for the endpoint of the applications on the platform.
 
 ## Getting Started
 
-This plugin will be used by the `coredns` instance that will be deployed on the platform. This instance serves as an external DNS for the endpoint of the applications deployed on the platform.
-
 ### Prerequisites
 
-* system-model
+* [`system-model`](https://github.com/nalej/system-model)
 
 ### Build and compile
 
@@ -18,12 +16,11 @@ In order to build and compile this repository use the provided Makefile:
 make all
 ```
 
-This operation generates the binaries for this repo, download dependencies,
-run existing tests and generate ready-to-deploy Kubernetes files.
+This operation generates the binaries for this repo, downloads the required dependencies, runs existing tests and generates ready-to-deploy Kubernetes files.
 
 ### Enabling debug mode
 
-To enable debug mode on the plugin, configure that flag into the plugin config file:
+To enable the debug mode on the plugin, configure the `debug` flag into the plugin config file:
 
 ```
     .:53 {
@@ -65,7 +62,7 @@ Please read [contributing.md](contributing.md) for details on our code of conduc
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/nalej/coredns-nalej-plugin/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the available versions, see the [tags on this repository](https://github.com/nalej/coredns-nalej-plugin/tags). 
 
 ## Authors
 
